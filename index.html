@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>String Populator</title>
+    <!-- Import the Materialize CSS and JavaScript files -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+      function populateString(str, ...arrays) {
+        let result = str;
+        for (let i = 0; i < arrays.length; i++) {
+          let array = arrays[i];
+          for(let j = 0; j < array.length; j++){
+              result = result.replace(new RegExp(`arr${i+1}\\[${j}\\]`, 'g'), array[j]);
+          }
+        }
+        return result;
+      }
+
+      function generateList() {
+        let template = document.getElementById("template").value;
+        let array1 = document.getElementById("array1").value.split(",");
+        let array2 = document.getElementById("array2").value.split(",");
+        let list = document.getElementById("list");
+
+        list.innerHTML = "";
+        for (let i = 0; i < array1.length; i++) {
+          let item = document.createElement("li");
+          item.innerHTML = populateString(template, array1[i], array2[i]);
+          list.appendChild(item);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="center-align">String Populator</h1>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="template" type="text" placeholder="Enter template">
+              <label for="template">Template</label>
+            </div>
+            <div class="input-field col s12">
+              <input id="array1" type="text" placeholder="Enter values separated by commas">
+              <label for="array1">Array 1</label>
+            </div>
+            <div class="input-field col s12">
+              <input id="array2" type="text" placeholder="Enter values separated by commas">
+              <label for="array2">Array 2</label>
+            </div>
+          </div>
+          <div class="row center-align">
+            <button class="btn waves-effect waves-light" onclick="generateList()">Generate List</button>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <ul id="list"></ul>
+      </div>
+    </div>
+  </body>
+</html>
